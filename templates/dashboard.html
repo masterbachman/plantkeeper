@@ -1,0 +1,325 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Real-time Line Plots and Dashboard</title>
+    
+    <!-- To call static files from a offline Flask webserver we must use the following notation. -->
+    <!-- MAKE SURE ALL STATIC FILES ARE IN THE STATIC FILE DIRECTORY -->
+    <script src="{{ url_for('static', filename='plotly-latest.min.js') }}"></script>
+    <script src="{{ url_for('static', filename='jquery-3.6.0.min.js') }}"></script>
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+
+    <h1>
+        <div class="header-container">
+            <img src="{{ url_for('static', filename='logo.png') }}" alt="Logo" class="logo">
+        </div>
+    </h1>
+
+<!-- This code defines a header for a section that displays manual controls -->
+<h1>Manual Controls</h1>
+
+<!-- This code creates a container div for the controls -->
+<div id="dashboard">
+
+    <!-- This code defines a control group for the pump -->
+    <div class="control-group">
+
+        <!-- This code defines a header for the pump controls -->
+        <h2>Pump</h2>
+
+        <!-- Creates a container for the buttons -->
+        <div class="controls">
+            <!-- This code creates buttons to turn the pump on and off -->
+            <button onclick="pump_on()">Pump On</button>
+            <button onclick="pump_off()">Pump Off</button>
+        </div>
+    </div>
+</div>
+
+    
+<!-- Creates a control group for a hose -->
+<div class="control-group">
+    
+    <!-- Displays the title "Hose" as a heading level 2 -->
+    <h2>Hose</h2>
+    
+    <!-- Creates a container for the buttons -->
+    <div class="controls">
+        
+        <!-- This code creates buttons to turn the hose on and off -->
+        <button onclick="hose_on()">Hose On</button>
+        <button onclick="hose_off()">Hose Off</button>
+    </div>
+</div>
+
+<!-- Creates a control group for shade1 -->
+<div class="control-group">
+    <h2>Shade1 Controls</h2>
+    <!-- Creates a container for the buttons -->
+    <div class="controls">
+
+            <!-- This code creates buttons to command the shades up, down, and stop -->
+        <button onclick="shade_1_up()">Shade1 Up</button>
+        <button onclick="shade_1_down()">Shade1 Down</button>
+        <button onclick="shade_1_stop()">Shade1 Stop</button>
+    </div>
+</div>
+
+<!-- Creates a control group for shade2 -->
+<div class="control-group">
+    <h2>Shade2 Controls</h2>
+    <!-- Creates a container for the buttons -->
+    <div class="controls">
+
+        <!-- This code creates buttons to command the shades up, down, and stop -->
+        <button onclick="shade_2_up()">Shade2 Up</button>
+        <button onclick="shade_2_down()">Shade2 Down</button>
+        <button onclick="shade_2_stop()">Shade2 Stop</button>
+    </div>
+</div>
+
+<!-- Creates a control group for shade3 -->
+<div class="control-group">
+    <h2>Shade3 Controls</h2>
+    <!-- Creates a container for the buttons -->
+    <div class="controls">
+
+        <!-- This code creates buttons to command the shades up, down, and stop -->
+        <button onclick="shade_3_up()">Shade3 Up</button>
+        <button onclick="shade_3_down()">Shade3 Down</button>
+        <button onclick="shade_3_stop()">Shade3 Stop</button>
+    </div>
+</div>
+
+<!-- This can be removed - this is for debugging purposes -->
+<!-- Creates a container for the buttons -->
+<div class="control-group">
+    <button onclick="get_sensor_status()">Get Sensor Status</button>
+</div>
+</div>
+
+<!-- This can be removed - this is for debugging purposes -->
+<div id="sensor-data">
+    <!-- Sensor data will be displayed here upon button press -->
+</div>
+
+<h1>Live Camera Feed</h1>
+<img src="http://0.0.0.0:8000/video_feed" width="640" height="480">
+
+
+<h1>Live Plots</h1>
+<div id="plot-container">
+    <div id="plot1" class="plot"></div>
+    <div id="plot2" class="plot"></div>
+    <div id="plot3" class="plot"></div>
+    <div id="plot4" class="plot"></div>
+    <div id="plot5" class="plot"></div>
+    <div id="plot6" class="plot"></div>
+    <div id="plot7" class="plot"></div>
+    <div id="plot8" class="plot"></div>
+    <div id="plot9" class="plot"></div>
+    <div id="plot10" class="plot"></div>
+    <div id="plot11" class="plot"></div>
+    <div id="plot12" class="plot"></div>
+    <div id="plot13" class="plot"></div>
+    <div id="plot14" class="plot"></div>
+    <div id="plot15" class="plot"></div>
+</div>
+
+</body>
+</html>
+
+<script>
+// Function to create a trace object with given name
+function createTrace(name) {
+    return {
+        x: [], // x-axis data (time)
+        y: [], // y-axis data (sensor value)
+        mode: 'lines', // Plot mode (line plot)
+        name: name // Name of the sensor
+    };
+}
+
+// Function to create a layout object with given title
+function createLayout(title) {
+    return {
+        title: title, // Title of the plot
+        xaxis: {title: 'Time'}, // x-axis title
+        yaxis: {title: title} // y-axis title
+    };
+}
+
+
+// Define initial data and layout for the plots
+var traces = [
+    createTrace('Moisture 1'),
+    createTrace('Moisture 2'),
+    createTrace('Moisture 3'),
+    createTrace('Temperature'),
+    createTrace('Humidity'),
+    createTrace('Water Level Low'),
+    createTrace('Water Level High'),
+    createTrace('Light'),
+    createTrace('Voltage'),
+    createTrace('Reed1'),
+    createTrace('Reed2'),
+    createTrace('Reed3'),
+    createTrace('Reed4'),
+    createTrace('Reed5'),
+    createTrace('Reed6')
+];
+
+// Create the plots
+for (var i = 0; i < traces.length; i++) {
+    Plotly.newPlot('plot' + (i + 1), [traces[i]], createLayout(traces[i].name));
+}
+
+// Function to update the plots in real-time
+function updatePlots() {
+    // Make an AJAX request to get the latest sensor data
+    $.ajax({
+        url: '/get_sensor_status',
+        type: 'GET',
+        dataType: 'json',
+        success: function(data) {
+            var currentTime = new Date(); // Get the current time
+
+            // Map keys in data to their corresponding index in traces array
+            var keyToIndex = {
+                'moisture1': 0,
+                'moisture2': 1,
+                'moisture3': 2,
+                'temperature': 3,
+                'humidity': 4,
+                'waterLevelLow': 5,
+                'waterLevelHigh': 6,
+                'light': 7,
+                'voltage': 8,
+                'reed1': 9,
+                'reed2': 10,
+                'reed3': 11,
+                'reed4': 12,
+                'reed5': 13,
+                'reed6': 14
+            };
+
+            // Append new data to the traces and update the plots
+            for (var key in data) {
+                var index = keyToIndex[key];
+                traces[index].x.push(currentTime);
+                traces[index].y.push(parseFloat(data[key]));
+
+                // Keep a maximum of 30 data points on the plot
+                if (traces[index].x.length > 30) {
+                    traces[index].x.shift();
+                    traces[index].y.shift();
+                }
+
+                // Update the plot with the new data
+                Plotly.update('plot' + (index + 1), {x: [traces[index].x], y: [traces[index].y]});
+            }
+        },
+        error: function(error) {
+            // Log the error if fetching sensor data fails
+            console.error('Error fetching sensor data:', error);
+        }
+    });
+}
+
+// Start updating the plots at a regular interval
+setInterval(updatePlots, 1000); // Update every 1000 ms (1 second)
+</script>
+
+<script>
+    // Function to turn the pump on
+    function pump_on() {
+        // Send a request to the server to turn the pump on
+        fetch('/pump_on');
+    }
+
+    // Function to turn the pump off
+    function pump_off() {
+        // Send a request to the server to turn the pump off
+        fetch('/pump_off');
+    }
+
+    // Function to turn the hose on
+    function hose_on() {
+        // Send a request to the server to turn the hose on
+        fetch('/hose_on');
+    }
+
+    // Function to turn the hose off
+    function hose_off() {
+        // Send a request to the server to turn the hose off
+        fetch('/hose_off');
+    }
+
+    // Function to move shade 1 up
+    function shade_1_up() {
+        // Send a request to the server to move shade 1 up
+        fetch('/shade_1_up');
+    }
+
+    // Function to move shade 1 down
+    function shade_1_down() {
+        // Send a request to the server to move shade 1 down
+        fetch('/shade_1_down');
+    }
+
+    // Function to move shade 2 up
+    function shade_2_up() {
+        // Send a request to the server to move shade 2 up
+        fetch('/shade_2_up');
+    }
+
+    // Function to move shade 2 down
+    function shade_2_down() {
+        // Send a request to the server to move shade 2 down
+        fetch('/shade_2_down');
+    }
+
+    // Function to move shade 3 up
+    function shade_3_up() {
+        // Send a request to the server to move shade 3 up
+        fetch('/shade_3_up');
+    }
+
+    // Function to move shade 3 down
+    function shade_3_down() {
+        // Send a request to the server to move shade 3 down
+        fetch('/shade_3_down');
+    }
+
+    // Function to stop shade 1 movement
+    function shade_1_stop() {
+        // Send a request to the server to stop shade 1 movement
+        fetch('/shade_1_stop');
+    }
+
+    // Function to stop shade 2 movement
+    function shade_2_stop() {
+        // Send a request to the server to stop shade 2 movement
+        fetch('/shade_2_stop');
+    }
+
+    // Function to stop shade 3 movement
+    function shade_3_stop() {
+        // Send a request to the server to stop shade 3 movement
+        fetch('/shade_3_stop');
+    }
+
+    // Function to get the sensor status
+    function get_sensor_status() {
+        // Send a request to the server to get sensor status
+        fetch('/get_sensor_status')
+            // Convert the response to text
+            .then(response => response.text())
+            // Update the HTML element with id 'sensor-data' with the received data
+            .then(data => document.getElementById('sensor-data').innerHTML = data);
+    }
+</script>
