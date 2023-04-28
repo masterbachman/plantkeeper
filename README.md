@@ -23,12 +23,7 @@ The following libraries are required:
 -   `flask`
 -   `collections`
 
-These can be installed via pip:
-
-Copy code
-
-`pip install pyserial
-pip install flask`
+`
 
 Getting started
 ---------------
@@ -37,9 +32,12 @@ Getting started
 2.  Connect the Arduino board with sensors to your computer.
 3.  Install the required Python libraries by running the following command in the terminal:
 
-Copy code
+These can be installed via pip:
 
-`pip install flask pyserial`
+```
+pip install flask 
+pip install pyserial
+```
 
 1.  Open the `dashboardServer.py` file and update the serial port and baud rate to match your Arduino board settings:
 
@@ -52,12 +50,12 @@ ser = serial.Serial('/dev/ttyACM0', 9600)`
 
 Copy code
 
+
 ```
 python dashboardServer.py
 python shadeAutomation.py
 python pumpAutomation.py
 python httpCameraServer.py
-
 ```
 
 1.  Open a web browser and go to `http://localhost:5000` to access the plant monitoring system.
