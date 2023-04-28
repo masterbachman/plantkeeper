@@ -52,7 +52,13 @@ ser = serial.Serial('/dev/ttyACM0', 9600)`
 
 Copy code
 
-`python dashboardServer.py`
+```
+python dashboardServer.py
+python shadeAutomation.py
+python pumpAutomation.py
+python httpCameraServer.py
+
+```
 
 1.  Open a web browser and go to `http://localhost:5000` to access the plant monitoring system.
 
