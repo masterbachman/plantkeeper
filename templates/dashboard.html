@@ -108,7 +108,7 @@
 </div>
 
 <h1>Live Camera Feed</h1>
-<img src="http://0.0.0.0:8000/video_feed" width="640" height="480">
+<img src="http://10.42.0.1:8000/stream.mjpg" width="640" height="480">
 
 
 <h1>Live Plots</h1>
@@ -133,6 +133,7 @@
 </body>
 </html>
 
+<!-- START PLOTLY CONTROL -->
 <script>
 // Function to create a trace object with given name
 function createTrace(name) {
@@ -233,93 +234,96 @@ function updatePlots() {
 // Start updating the plots at a regular interval
 setInterval(updatePlots, 1000); // Update every 1000 ms (1 second)
 </script>
+<!-- END PLOTLY CONTROL -->
 
+<!-- START FETCH SERVER REQUEST -->
 <script>
-    // Function to turn the pump on
-    function pump_on() {
-        // Send a request to the server to turn the pump on
-        fetch('/pump_on');
-    }
+// Function to turn the pump on
+function pump_on() {
+    // Send a request to the server to turn the pump on
+    fetch('/pump_on');
+}
 
-    // Function to turn the pump off
-    function pump_off() {
-        // Send a request to the server to turn the pump off
-        fetch('/pump_off');
-    }
+// Function to turn the pump off
+function pump_off() {
+    // Send a request to the server to turn the pump off
+    fetch('/pump_off');
+}
 
-    // Function to turn the hose on
-    function hose_on() {
-        // Send a request to the server to turn the hose on
-        fetch('/hose_on');
-    }
+// Function to turn the hose on
+function hose_on() {
+    // Send a request to the server to turn the hose on
+    fetch('/hose_on');
+}
 
-    // Function to turn the hose off
-    function hose_off() {
-        // Send a request to the server to turn the hose off
-        fetch('/hose_off');
-    }
+// Function to turn the hose off
+function hose_off() {
+    // Send a request to the server to turn the hose off
+    fetch('/hose_off');
+}
 
-    // Function to move shade 1 up
-    function shade_1_up() {
-        // Send a request to the server to move shade 1 up
-        fetch('/shade_1_up');
-    }
+// Function to move shade 1 up
+function shade_1_up() {
+    // Send a request to the server to move shade 1 up
+    fetch('/shade_1_up');
+}
 
-    // Function to move shade 1 down
-    function shade_1_down() {
-        // Send a request to the server to move shade 1 down
-        fetch('/shade_1_down');
-    }
+// Function to move shade 1 down
+function shade_1_down() {
+    // Send a request to the server to move shade 1 down
+    fetch('/shade_1_down');
+}
 
-    // Function to move shade 2 up
-    function shade_2_up() {
-        // Send a request to the server to move shade 2 up
-        fetch('/shade_2_up');
-    }
+// Function to move shade 2 up
+function shade_2_up() {
+    // Send a request to the server to move shade 2 up
+    fetch('/shade_2_up');
+}
 
-    // Function to move shade 2 down
-    function shade_2_down() {
-        // Send a request to the server to move shade 2 down
-        fetch('/shade_2_down');
-    }
+// Function to move shade 2 down
+function shade_2_down() {
+    // Send a request to the server to move shade 2 down
+    fetch('/shade_2_down');
+}
 
-    // Function to move shade 3 up
-    function shade_3_up() {
-        // Send a request to the server to move shade 3 up
-        fetch('/shade_3_up');
-    }
+// Function to move shade 3 up
+function shade_3_up() {
+    // Send a request to the server to move shade 3 up
+    fetch('/shade_3_up');
+}
 
-    // Function to move shade 3 down
-    function shade_3_down() {
-        // Send a request to the server to move shade 3 down
-        fetch('/shade_3_down');
-    }
+// Function to move shade 3 down
+function shade_3_down() {
+    // Send a request to the server to move shade 3 down
+    fetch('/shade_3_down');
+}
 
-    // Function to stop shade 1 movement
-    function shade_1_stop() {
-        // Send a request to the server to stop shade 1 movement
-        fetch('/shade_1_stop');
-    }
+// Function to stop shade 1 movement
+function shade_1_stop() {
+    // Send a request to the server to stop shade 1 movement
+    fetch('/shade_1_stop');
+}
 
-    // Function to stop shade 2 movement
-    function shade_2_stop() {
-        // Send a request to the server to stop shade 2 movement
-        fetch('/shade_2_stop');
-    }
+// Function to stop shade 2 movement
+function shade_2_stop() {
+    // Send a request to the server to stop shade 2 movement
+    fetch('/shade_2_stop');
+}
 
-    // Function to stop shade 3 movement
-    function shade_3_stop() {
-        // Send a request to the server to stop shade 3 movement
-        fetch('/shade_3_stop');
-    }
+// Function to stop shade 3 movement
+function shade_3_stop() {
+    // Send a request to the server to stop shade 3 movement
+    fetch('/shade_3_stop');
+}
 
-    // Function to get the sensor status
-    function get_sensor_status() {
-        // Send a request to the server to get sensor status
-        fetch('/get_sensor_status')
-            // Convert the response to text
-            .then(response => response.text())
-            // Update the HTML element with id 'sensor-data' with the received data
-            .then(data => document.getElementById('sensor-data').innerHTML = data);
-    }
+// Function to get the sensor status
+function get_sensor_status() {
+    // Send a request to the server to get sensor status
+    fetch('/get_sensor_status')
+        // Convert the response to text
+        .then(response => response.text())
+        // Update the HTML element with id 'sensor-data' with the received data
+        .then(data => document.getElementById('sensor-data').innerHTML = data);
+}
 </script>
+<!-- END FETCH SERVER REQUEST -->
