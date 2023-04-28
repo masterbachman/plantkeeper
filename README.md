@@ -28,9 +28,10 @@ The following libraries are required:
 Getting started
 ---------------
 
-1.  Clone this repository to your local machine.
+1.  Clone this repository to your local RPI.
 2.  Connect the Arduino board with sensors to your computer.
-3.  Install the required Python libraries by running the following command in the terminal:
+3.  SSH into RPI 
+4.  Install the required Python libraries by running the following command in the terminal:
 
 These can be installed via pip:
 
