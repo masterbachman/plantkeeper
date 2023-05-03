@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Indicator Lights</title>
+	<style>
+		.container {
+			display: flex;
+			align-items: center;
+			margin-bottom: 10px;
+		}
+
+		.indicator {
+			display: inline-block;
+			width: 40px;
+			height: 40px;
+			border-radius: 50%;
+			margin-right: 10px;
+		}
+
+		.red {
+			background-color: red;
+		}
+
+		.green {
+			background-color: green;
+		}
+	</style>
+</head>
+<body>
+	<div class="container">
+		<div class="indicator red" id="indicator1"></div>
+		<span>Indicator 1:</span>
+	</div>
+	<div class="container">
+		<div class="indicator red" id="indicator2"></div>
+		<span>Indicator 2:</span>
+	</div>
+
+	<script>
+		// Set initial values
+		var isIndicator1On = false;
+		var isIndicator2On = true;
+
+		// Update indicator lights
+		function updateIndicators() {
+			var indicator1 = document.getElementById("indicator1");
+			var indicator2 = document.getElementById("indicator2");
+
+			if (isIndicator1On) {
+				indicator1.classList.remove("red");
+				indicator1.classList.add("green");
+			} else {
+				indicator1.classList.remove("green");
+				indicator1.classList.add("red");
+			}
+
+			if (isIndicator2On) {
+				indicator2.classList.remove("red");
+				indicator2.classList.add("green");
+			} else {
+				indicator2.classList.remove("green");
+				indicator2.classList.add("red");
+			}
+		}
+
+		// Call updateIndicators function to set initial state
+		updateIndicators();
+
+		// Set up event listeners to toggle indicator lights
+		document.addEventListener("keydown", function(event) {
+			if (event.key === "1") {
+				isIndicator1On = !isIndicator1On;
+				updateIndicators();
+			} else if (event.key === "2") {
+				isIndicator2On = !isIndicator2On;
+				updateIndicators();
+			}
+		});
+	</script>
+</body>
+</html>

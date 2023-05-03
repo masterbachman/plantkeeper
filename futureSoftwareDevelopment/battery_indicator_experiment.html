@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+</head>
+<body>
+  <div id="battery-indicator"></div>
+
+  <script>
+    // Function to get the gauge color based on the value
+    function getGaugeColor(value) {
+      if (value <= 20) {
+        return 'red';
+      } else if (value <= 50) {
+        return 'yellow';
+      } else {
+        return 'green';
+      }
+    }
+
+    // Current battery value
+    var batteryValue = 17;
+
+    // Data for the battery indicator gauge chart
+    var data = [
+      {
+        type: "indicator",
+        mode: "gauge+number",
+        value: batteryValue,
+        title: { text: "Battery Indicator", font: { size: 24 } },
+        gauge: {
+          axis: { range: [0, 100], tickwidth: 1, tickcolor: "black" },
+          bar: { color: getGaugeColor(batteryValue) },
+          bgcolor: "white",
+          borderwidth: 2,
+          bordercolor: "gray",
+          steps: [
+            { range: [0, batteryValue], color: getGaugeColor(batteryValue) },
+            { range: [batteryValue, 100], color: "rgba(0, 0, 0, 0.1)" },
+          ],
+        }
+      }
+    ];
+
+    // Layout options for the battery indicator gauge chart
+    var layout = {
+      width: 500,
+      height: 400,
+      margin: { t: 25, r: 25, l: 25, b: 25 },
+      font: { color: "black", family: "Arial" },
+    };
+
+    // Render the battery indicator gauge chart
+    Plotly.newPlot('battery-indicator', data, layout);
+  </script>
+</body>
+</html>
