@@ -3,6 +3,10 @@ Plant Monitoring System
 
 This repository contains the code for a plant monitoring system that can be used to monitor the moisture, temperature, humidity, and light levels in a plant environment. The system uses an Arduino board with sensors connected to it and a Python Flask web application to display the sensor data in real-time.
 
+Photo
+-----
+![IMG_2074](https://user-images.githubusercontent.com/20326910/236612286-b24e3883-8958-4e34-be73-ebc9f51f9c9a.jpeg)
+
 Requirements
 ------------
 
