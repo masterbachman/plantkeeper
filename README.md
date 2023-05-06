@@ -9,7 +9,7 @@ Photo
 
 Video
 -----
-https://user-images.githubusercontent.com/20326910/236614227-707c44c1-b6df-482b-bf6d-b2adba6b2205.mp4
+https://user-images.githubusercontent.com/20326910/236614716-82780312-fc47-4eba-8d34-e2aec6b0808f.mp4
 
 Requirements
 ------------
