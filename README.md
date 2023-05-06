@@ -5,7 +5,7 @@ This repository contains the code for a plant monitoring system that can be used
 
 Photo
 -----
-![IMG_2074](https://user-images.githubusercontent.com/20326910/236612286-b24e3883-8958-4e34-be73-ebc9f51f9c9a.jpeg)
+![IMG_2091](https://user-images.githubusercontent.com/20326910/236612451-cef785e5-bb2e-4f10-9279-13cb09384d4c.png)
 
 Requirements
 ------------
