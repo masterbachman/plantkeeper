@@ -114,7 +114,7 @@ def get_sensor_status():
         'waterLevelLow': data_list[5],
         'waterLevelHigh': data_list[6],
         'light': data_list[7],
-        'voltage': data_list[8],
+        'batteryPercentage': data_list[8],
         'reed1': data_list[9],
         'reed2': data_list[10],
         'reed3': data_list[11],
