@@ -2,7 +2,6 @@
 #include <dht.h>
 #include <Wire.h>
 
-
 // Pin Definition for the Shift Register (165)
 const uint8_t ISRDataPin = 7;   // connected to 74HC165 QH (9) pin
 const uint8_t ISRLatchPin = 8;  // connected to 74HC165 SH/LD (1) pin
@@ -42,6 +41,11 @@ const int WET_VALUE = 239;  // value for wet sensor
 dht DHT;              // Creates a DHT object
 BH1750 lightMeter(0x23);
 int offset =20;
+
+//Motors Inputs
+uint8_t motor1_input = 0;
+uint8_t motor2_input = 0;
+uint8_t motor3_input = 0;
 
 // Define values for the shift registers
 const uint8_t shiftReg1Value = 0; // (165N)
@@ -171,77 +175,55 @@ void osrDigitalWrite(uint8_t pin, uint8_t value) {
   osrWriteRegister(outputs);  // write all outputs to shift register
 }
 
-
-void motor1Control(uint8_t inputvalue1) {
+void motorControl(uint8_t inputvalue1, uint8_t inputvalue2, uint8_t inputvalue3) {
   // Output pin definitions
   const uint8_t MOTOR1_IN1 = 0;
   const uint8_t MOTOR1_IN2 = 1;
-  
-  uint8_t motorOutputs = 0;
-
-  if (inputvalue1 == 0) { // motor stays off
-    bitClear(motorOutputs, MOTOR1_IN1);
-    bitClear(motorOutputs, MOTOR1_IN2);
-  } else if (inputvalue1 == 1) { // if magnetic switch1 is High and magnetic switch2 is Low
-    // motor moves up 
-    bitClear(motorOutputs, MOTOR1_IN1);
-    bitSet(motorOutputs, MOTOR1_IN2);
-  } else if (inputvalue1 == 2) { // if magnetic switch1 is High and magnetic switch2 is Low
-    // motor moves down
-    bitSet(motorOutputs, MOTOR1_IN1);
-    bitClear(motorOutputs, MOTOR1_IN2);
-  }
-  
-  osrWriteRegister(motorOutputs);
-  delay(1000);  // Add a 1-second delay to give the motor time to move
-}
-
-void motor2Control(uint8_t inputvalue2) {
-  // Output pin definitions
   const uint8_t MOTOR2_IN1 = 2;
   const uint8_t MOTOR2_IN2 = 3;
-
-  uint8_t motorOutputs = 0;
-
-  if (inputvalue2 == 0) { // motor stays off
-    bitClear(motorOutputs, MOTOR2_IN1);
-    bitClear(motorOutputs, MOTOR2_IN2);
-  } else if (inputvalue2 == 2) { // if magnetic switch1 is High and magnetic switch2 is Low
-    // motor moves up
-    bitClear(motorOutputs, MOTOR2_IN1);
-    bitSet(motorOutputs, MOTOR2_IN2);
-  } else if (inputvalue2 == 1) { // if magnetic switch1 is High and magnetic switch2 is Low
-    // motor moves down
-    bitSet(motorOutputs, MOTOR2_IN1);
-    bitClear(motorOutputs, MOTOR2_IN2);
-  }
-
-  osrWriteRegister(motorOutputs);
-  delay(1000);  // Add a 1-second delay to give the motor time to move
-}
-
-void motor3Control(uint8_t inputvalue3) {
-  // Output pin definitions
   const uint8_t MOTOR3_IN1 = 4;
   const uint8_t MOTOR3_IN2 = 5;
 
   uint8_t motorOutputs = 0;
 
+  // Motor 1 control
+  if (inputvalue1 == 0) { // motor stays off
+    bitClear(motorOutputs, MOTOR1_IN1);
+    bitClear(motorOutputs, MOTOR1_IN2);
+  } else if (inputvalue1 == 1) { // motor moves up
+    bitClear(motorOutputs, MOTOR1_IN1);
+    bitSet(motorOutputs, MOTOR1_IN2);
+  } else if (inputvalue1 == 2) { // motor moves down
+    bitSet(motorOutputs, MOTOR1_IN1);
+    bitClear(motorOutputs, MOTOR1_IN2);
+  }
+
+  // Motor 2 control
+  if (inputvalue2 == 0) { // motor stays off
+    bitClear(motorOutputs, MOTOR2_IN1);
+    bitClear(motorOutputs, MOTOR2_IN2);
+  } else if (inputvalue2 == 1) { // motor moves up
+    bitClear(motorOutputs, MOTOR2_IN1);
+    bitSet(motorOutputs, MOTOR2_IN2);
+  } else if (inputvalue2 == 2) { // motor moves down
+    bitSet(motorOutputs, MOTOR2_IN1);
+    bitClear(motorOutputs, MOTOR2_IN2);
+  }
+
+  // Motor 3 control
   if (inputvalue3 == 0) { // motor stays off
     bitClear(motorOutputs, MOTOR3_IN1);
     bitClear(motorOutputs, MOTOR3_IN2);
-  } else if (inputvalue3 == 1) { // if magnetic switch1 is High and magnetic switch2 is Low
-    // motor moves up
+  } else if (inputvalue3 == 1) { // motor moves up
     bitClear(motorOutputs, MOTOR3_IN1);
     bitSet(motorOutputs, MOTOR3_IN2);
-  } else if (inputvalue3 == 2) { // if magnetic switch1 is High and magnetic switch2 is Low
-    // motor moves down
+  } else if (inputvalue3 == 2) { // motor moves down
     bitSet(motorOutputs, MOTOR3_IN1);
     bitClear(motorOutputs, MOTOR3_IN2);
   }
 
   osrWriteRegister(motorOutputs);
-  delay(1000);  // Add a 1-second delay to give the motor time to move
+  delay(1000);  // Add a 1-second delay to give the motors time to move
 }
 
 //---------------------------------------------------------------------------------
@@ -256,25 +238,40 @@ void handleSerialCommand(const char* command) {
     digitalWrite(HOSE_PIN, HIGH);
   } else if (strcmp(command, "hose_off") == 0) {
     digitalWrite(HOSE_PIN, LOW);
-    
-  } else if (strcmp(command, "shade_1_up") == 0) {
-    motor1Control(1);
+
+  // Motor 1 commands
+  }  else if (strcmp(command, "shade_1_up") == 0) {
+    motor1_input = 1;
+    motorControl(motor1_input, motor2_input, motor3_input);
   } else if (strcmp(command, "shade_1_down") == 0) {
-    motor1Control(2);
+    motor1_input = 2;
+    motorControl(motor1_input, motor2_input, motor3_input);
   } else if (strcmp(command, "shade_1_stop") == 0) {
-    motor1Control(0);
+    motor1_input = 0;
+    motorControl(motor1_input, motor2_input, motor3_input);
+
+  // Motor 2 commands
   } else if (strcmp(command, "shade_2_up") == 0) {
-    motor2Control(1);
+    motor2_input = 2;
+    motorControl(motor1_input, motor2_input, motor3_input);
   } else if (strcmp(command, "shade_2_down") == 0) {
-    motor2Control(2);
+    motor2_input = 1;
+    motorControl(motor1_input, motor2_input, motor3_input);
   } else if (strcmp(command, "shade_2_stop") == 0) {
-    motor2Control(0);
+    motor2_input = 0;
+    motorControl(motor1_input, motor2_input, motor3_input);
+
+  // Motor 3 commands
   } else if (strcmp(command, "shade_3_up") == 0) {
-    motor3Control(1);
+    motor3_input = 1;
+    motorControl(motor1_input, motor2_input, motor3_input);
   } else if (strcmp(command, "shade_3_down") == 0) {
-    motor3Control(2);
+    motor3_input = 2;
+    motorControl(motor1_input, motor2_input, motor3_input);
   } else if (strcmp(command, "shade_3_stop") == 0) {
-    motor3Control(0);
+    motor3_input = 0;
+    motorControl(motor1_input, motor2_input, motor3_input);
+  
   } else if (strcmp(command, "get_sensor_status") == 0) {
     printSensorData();
   }
@@ -299,9 +296,9 @@ void printSensorData() {
 
   float light = lightMeter.readLightLevel();
 
-  double voltage = analogRead(VOLTAGE_PIN);
-  voltage = map(voltage,0,1023, 0, 2500) + offset;// map 0-1023 to 0-2500 and add correction offset
-  voltage /=12.8;// divide by 100 to get the decimal values
+  double batteryPercentage = analogRead(VOLTAGE_PIN);
+  batteryPercentage = map(batteryPercentage,0,1023, 0, 2500) + offset;// map 0-1023 to 0-2500 and add correction offset
+  batteryPercentage /=12.8;// divide by 100 to get the decimal values
 
   bool reed1 = isrDigitalRead(MOTOR1_SW_UP_PIN);
   bool reed2 = isrDigitalRead(MOTOR1_SW_DN_PIN);
@@ -329,7 +326,7 @@ void printSensorData() {
   Serial.print(", ");
   Serial.print(light);
   Serial.print(", ");
-  Serial.print(voltage);
+  Serial.print(batteryPercentage);
   Serial.print(", ");
   Serial.print(reed1);
   Serial.print(", ");
