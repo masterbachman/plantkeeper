@@ -12,140 +12,127 @@
     <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='style.css') }}">
 </head>
 <body>
-
-<h1>
-    <div class="header-container">
-        <img src="{{ url_for('static', filename='logo.png') }}" alt="Logo" class="logo">
-    </div>
-</h1>
-
-<!-- This code defines a header for a section that displays manual controls -->
-<h1>Manual Controls</h1>
-
-<!-- This code creates a container div for the controls -->
-<div id="dashboard">
-
-    <!-- This code defines a control group for the pump -->
-    <div class="control-group">
-
-        <!-- This code defines a header for the pump controls -->
-        <h2>Pump</h2>
-
-        <!-- Creates a container for the buttons -->
-        <div class="controls">
-            <!-- This code creates buttons to turn the pump on and off -->
-            <button onclick="pump_on()">Pump On</button>
-            <button onclick="pump_off()">Pump Off</button>
+    <h1>
+        <div class="header-container">
+            <img src="{{ url_for('static', filename='logo.png') }}" alt="Logo" class="logo">
         </div>
-    </div>
-</div>
+    </h1>
 
- 
-<!-- This code creates a container div for the controls -->
-<div id="dashboard">
+    <!-- This code defines a header for a section that displays manual controls -->
+    <h1>Manual Controls</h1>
 
-    <!-- Creates a control group for a hose -->
-    <div class="control-group">
-    
-        <!-- Displays the title "Hose" as a heading level 2 -->
-        <h2>Hose</h2>
+
+    <div id="dashboard">
+        <!-- This code defines a control group for the pump -->
+        <div class="control-group">
+
+            <!-- This code defines a header for the pump controls -->
+            <h2>Pump</h2>
+
+            <!-- Creates a container for the buttons -->
+            <div class="controls">
+                <!-- This code creates buttons to turn the pump on and off -->
+                <button onclick="pump_on()">Pump On</button>
+                <button onclick="pump_off()">Pump Off</button>
+            </div>
+        </div>
+
+        <!-- Creates a control group for a hose -->
+        <div class="control-group">
         
-        <!-- Creates a container for the buttons -->
-        <div class="controls">
+            <!-- Displays the title "Hose" as a heading level 2 -->
+            <h2>Hose</h2>
             
-            <!-- This code creates buttons to turn the hose on and off -->
-            <button onclick="hose_on()">Hose On</button>
-            <button onclick="hose_off()">Hose Off</button>
+            <!-- Creates a container for the buttons -->
+            <div class="controls">
+                
+                <!-- This code creates buttons to turn the hose on and off -->
+                <button onclick="hose_on()">Hose On</button>
+                <button onclick="hose_off()">Hose Off</button>
+            </div>
         </div>
-    </div>
-</div>
 
-<!-- This code creates a container div for the controls -->
-<div id="dashboard">
+        <!-- Creates a control group for shade1 -->
+        <div class="control-group">
+            <h2>Shade1 Controls</h2>
+            <!-- Creates a container for the buttons -->
+            <div class="controls">
 
-    <!-- Creates a control group for shade1 -->
-    <div class="control-group">
-        <h2>Shade1 Controls</h2>
-        <!-- Creates a container for the buttons -->
-        <div class="controls">
+                    <!-- This code creates buttons to command the shades up, down, and stop -->
+                <button onclick="shade_1_up()">Shade1 Up</button>
+                <button onclick="shade_1_down()">Shade1 Down</button>
+                <button onclick="shade_1_stop()">Shade1 Stop</button>
+            </div>
+        </div>
+
+        <!-- Creates a control group for shade2 -->
+        <div class="control-group">
+            <h2>Shade2 Controls</h2>
+            <!-- Creates a container for the buttons -->
+            <div class="controls">
 
                 <!-- This code creates buttons to command the shades up, down, and stop -->
-            <button onclick="shade_1_up()">Shade1 Up</button>
-            <button onclick="shade_1_down()">Shade1 Down</button>
-            <button onclick="shade_1_stop()">Shade1 Stop</button>
+                <button onclick="shade_2_up()">Shade2 Up</button>
+                <button onclick="shade_2_down()">Shade2 Down</button>
+                <button onclick="shade_2_stop()">Shade2 Stop</button>
+            </div>
+        </div>
+
+        <!-- Creates a control group for shade3 -->
+        <div class="control-group">
+            <h2>Shade3 Controls</h2>
+            <!-- Creates a container for the buttons -->
+            <div class="controls">
+
+                <!-- This code creates buttons to command the shades up, down, and stop -->
+                <button onclick="shade_3_up()">Shade3 Up</button>
+                <button onclick="shade_3_down()">Shade3 Down</button>
+                <button onclick="shade_3_stop()">Shade3 Stop</button>
+            </div>
         </div>
     </div>
-</div>
 
-<!-- This code creates a container div for the controls -->
-<div id="dashboard">
-
-    <!-- Creates a control group for shade2 -->
+    <!-- This can be removed - this is for debugging purposes -->
+    <!-- Creates a container for the buttons -->
     <div class="control-group">
-        <h2>Shade2 Controls</h2>
-        <!-- Creates a container for the buttons -->
-        <div class="controls">
-
-            <!-- This code creates buttons to command the shades up, down, and stop -->
-            <button onclick="shade_2_up()">Shade2 Up</button>
-            <button onclick="shade_2_down()">Shade2 Down</button>
-            <button onclick="shade_2_stop()">Shade2 Stop</button>
-        </div>
+        <button onclick="get_sensor_status()">Get Sensor Status</button>
     </div>
-</div>
+    </div>
 
-<!-- This code creates a container div for the controls -->
-<div id="dashboard">
+    <!-- This can be removed - this is for debugging purposes -->
+    <div id="sensor-data">
+        <!-- Sensor data will be displayed here upon button press -->
+    </div>
 
-    <!-- Creates a control group for shade3 -->
+    <h1>Live Camera Feed</h1>
+    <img src="http://10.42.0.1:8000/stream.mjpg" class="camera-image" width="640" height="480">
+    
+    <h1>Live Plots</h1>
+    <div id="plot-container">
+        <div id="plot1" class="plot"></div>
+        <div id="plot2" class="plot"></div>
+        <div id="plot3" class="plot"></div>
+        <div id="plot4" class="plot"></div>
+        <div id="plot5" class="plot"></div>
+        <div id="plot6" class="plot"></div>
+        <div id="plot7" class="plot"></div>
+        <div id="plot8" class="plot"></div>
+        <div id="plot9" class="plot"></div>
+        <div id="plot10" class="plot"></div>
+        <div id="plot11" class="plot"></div>
+        <div id="plot12" class="plot"></div>
+        <div id="plot13" class="plot"></div>
+        <div id="plot14" class="plot"></div>
+        <div id="plot15" class="plot"></div>
+    </div>
+
+    <h1>Raspberry Pi Controls</h1>
+    <!-- Creates a container for the buttons -->
     <div class="control-group">
-        <h2>Shade3 Controls</h2>
-        <!-- Creates a container for the buttons -->
-        <div class="controls">
-
-            <!-- This code creates buttons to command the shades up, down, and stop -->
-            <button onclick="shade_3_up()">Shade3 Up</button>
-            <button onclick="shade_3_down()">Shade3 Down</button>
-            <button onclick="shade_3_stop()">Shade3 Stop</button>
-        </div>
+        <button onclick="shutdown()">!!! Shutdown RPI !!!</button>
+        <button onclick="restart()">!!! Restart RPI !!!</button>
     </div>
-</div>
-
-<!-- This can be removed - this is for debugging purposes -->
-<!-- Creates a container for the buttons -->
-<div class="control-group">
-    <button onclick="get_sensor_status()">Get Sensor Status</button>
-</div>
-</div>
-
-<!-- This can be removed - this is for debugging purposes -->
-<div id="sensor-data">
-    <!-- Sensor data will be displayed here upon button press -->
-</div>
-
-<h1>Live Camera Feed</h1>
-<img src="http://10.42.0.1:8000/stream.mjpg" width="640" height="480">
-
-
-<h1>Live Plots</h1>
-<div id="plot-container">
-    <div id="plot1" class="plot"></div>
-    <div id="plot2" class="plot"></div>
-    <div id="plot3" class="plot"></div>
-    <div id="plot4" class="plot"></div>
-    <div id="plot5" class="plot"></div>
-    <div id="plot6" class="plot"></div>
-    <div id="plot7" class="plot"></div>
-    <div id="plot8" class="plot"></div>
-    <div id="plot9" class="plot"></div>
-    <div id="plot10" class="plot"></div>
-    <div id="plot11" class="plot"></div>
-    <div id="plot12" class="plot"></div>
-    <div id="plot13" class="plot"></div>
-    <div id="plot14" class="plot"></div>
-    <div id="plot15" class="plot"></div>
-</div>
-
+    </div>
 </body>
 </html>
 
@@ -330,6 +317,18 @@ function shade_2_stop() {
 function shade_3_stop() {
     // Send a request to the server to stop shade 3 movement
     fetch('/shade_3_stop');
+}
+
+// Function to control RPI 
+function shutdown() {
+    // Send a request to the server to shutdown RPI
+    fetch('/shutdown');
+}
+
+// Function to control RPI 
+function restart() {
+    // Send a request to the server to shutdown RPI
+    fetch('/restart');
 }
 
 // Function to get the sensor status

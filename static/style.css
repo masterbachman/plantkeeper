@@ -82,6 +82,18 @@ h2 {
   justify-content: space-around;
 }
 
+.camera-heading {
+  font-size: 24px;
+  color: #333;
+  /* Add any other styles you want for the heading */
+}
+
+.camera-image {
+  width: 100%; /* Adjust as needed */
+  height: auto; /* Maintain aspect ratio */
+  /* Add any other styles you want for the image */
+}
+
 /* Media Queries */
 @media only screen and (max-width: 768px) {
   .logo {

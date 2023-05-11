@@ -3,6 +3,7 @@ import time
 import threading
 from flask import Flask, render_template, request, jsonify
 from collections import OrderedDict
+import subprocess
 
 # create a Flask app
 app = Flask(__name__)
@@ -15,6 +16,16 @@ ser = serial.Serial('/dev/ttyACM0', 9600)
 def index():
     # render the template with the buttons
     return render_template('dashboard.html')
+
+@app.route('/shutdown')
+def shutdown():
+    subprocess.call(['sudo', 'shutdown', '-h', 'now'])
+    return 'Shutting down RPI...'
+
+@app.route('/restart')
+def restart():
+    subprocess.call(['sudo', 'shutdown', '-r', 'now'])
+    return 'Restarting RPI...'
 
 @app.route('/pump_on')
 def pump_on():
