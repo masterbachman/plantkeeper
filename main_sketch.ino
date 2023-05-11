@@ -295,6 +295,7 @@ void printSensorData() {
   int waterLevelHigh = digitalRead(WATER_LEVEL_HIGH_PIN);
 
   float light = lightMeter.readLightLevel();
+  light = map(light, 0, 700, 0, 100);
 
   double batteryPercentage = analogRead(VOLTAGE_PIN);
   batteryPercentage = map(batteryPercentage,0,1023, 0, 2500) + offset;// map 0-1023 to 0-2500 and add correction offset
